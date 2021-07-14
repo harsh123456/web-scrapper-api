@@ -12,4 +12,20 @@ app.get('/', (req, res) => {
     res.send("Welcome to Amazon Scraper API.");
 });
 
+//GET Product Details
+app.get('/products/:productId', async (req, res) => {
+    const { productId } = req.params;
+    const { api_key } = req.query;
+
+    try {
+        const response = await request(`${generateScraperUrl(api_key)}&url=https://www.amazon.com/dp/${productId}`);
+
+        res.json(JSON.parse(response));
+    } catch (error) {
+        res.json(error)
+    }
+});
+
+
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
