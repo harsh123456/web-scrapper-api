@@ -26,6 +26,19 @@ app.get('/products/:productId', async (req, res) => {
     }
 });
 
+//GET Product Reviews
+app.get('/products/:productId/reviews', async (req, res) => {
+    const { productId } = req.params;
+    const { api_key } = req.query;
+
+    try {
+        const response = await request(`${generateScraperUrl(api_key)}&url=https://www.amazon.com/product-reviews/${productId}`);
+
+        res.json(JSON.parse(response));
+    } catch (error) {
+        res.json(error)
+    }
+});
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
